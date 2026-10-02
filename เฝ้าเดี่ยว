@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Quiet Time - เฝ้าเดี่ยวประจำวัน</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Sarabun', sans-serif;
+        }
+
+        body {
+            background-color: #f4f8fb;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header / Banner */
+        header {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #a1c4fd 100%);
+            color: #fff;
+            text-align: center;
+            padding: 35px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        header p {
+            font-size: 1rem;
+            color: #4a5568;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav button {
+            background: none;
+            border: 2px solid transparent;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #5a67d8;
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        nav button.active, nav button:hover {
+            background-color: #ebf8ff;
+            border-color: #4299e1;
+            color: #2b6cb0;
+        }
+
+        /* Container Main */
+        .container {
+            max-width: 900px;
+            margin: 25px auto;
+            padding: 0 15px;
+        }
+
+        /* Card Section */
+        .card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border-left: 6px solid #4299e1;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #edf2f7;
+            padding-bottom: 10px;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: #2b6cb0;
+            font-weight: 700;
+        }
+
+        .date-badge {
+            background-color: #feebc8;
+            color: #744210;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Bible Reader Box */
+        .reader-controls {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #f7fafc;
+        }
+
+        /* Verse Box */
+        .verse-box {
+            background: linear-gradient(to right, #ebf8ff, #f0fff4);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #c3edd2;
+        }
+
+        .verse-text {
+            font-size: 1.15rem;
+            color: #2d3748;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .verse-ref {
+            text-align: right;
+            font-weight: bold;
+            color: #319795;
+        }
+
+        /* Q&A Section */
+        .qa-group {
+            margin-bottom: 15px;
+        }
+
+        .qa-title {
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qa-title span {
+            background-color: #e2e8f0;
+            color: #4a5568;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        textarea {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            resize: vertical;
+            font-size: 0.95rem;
+        }
+
+        textarea:focus, select:focus, input:focus {
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+        }
+
+        /* Action Buttons */
+        .btn-primary {
+            background-color: #4299e1;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #3182ce;
+        }
+
+        .btn-save {
+            background-color: #48bb78;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn-save:hover {
+            background-color: #38a169;
+        }
+
+        .saved-item {
+            background-color: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .reader-controls {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>📖 Daily Quiet Time</h1>
+        <p>เริ่มต้นวันใหม่ด้วยการเข้าเฝ้าและฟังเสียงของพระเจ้า</p>
+    </header>
+
+    <nav>
+        <button id="nav-today" class="active" onclick="switchTab('today')">✨ เฝ้าเดี่ยววันนี้</button>
+        <button id="nav-read" onclick="switchTab('read')">📖 อ่านพระคัมภีร์ (เปิดแอป)</button>
+        <button id="nav-saved" onclick="switchTab('saved')">⭐ ข้อที่ชอบ/บันทึกไว้</button>
+    </nav>
+
+    <div class="container">
+        <!-- 1. หน้าเฝ้าเดี่ยววันนี้ -->
+        <div id="tab-today">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">ข้อพระคัมภีร์ประจำวัน</span>
+                    <span class="date-badge" id="current-date">--/--/----</span>
+                </div>
+
+                <div class="verse-box">
+                    <div class="verse-text" id="verse-content">"กำลังโหลดพระคัมภีร์..."</div>
+                    <div class="verse-ref" id="verse-ref">-</div>
+                </div>
+
+                <div class="qa-group">
+                    <div class="qa-title"><span>1</span> พระคัมภีร์ข้อนี้พูดถึงอะไร?</div>
+                    <textarea id="ans-meaning" placeholder="บันทึกสาระสำคัญหรือสิ่งที่พระเจ้ากำลังสื่อสาร..."></textarea>
+                </div>
+
+                <div class="qa-group">
+                    <div class="qa-title"><span>2</span> นำไปใช้ในชีวิตประจำวันได้อย่างไร?</div>
+                    <textarea id="ans-apply" placeholder="การประยุกต์ใช้กับชีวิตจริงในวันนี้..."></textarea>
+                </div>
+
+                <div class="qa-group">
+                    <div class="qa-title"><span>3</span> ข้อไหนโดนใจมากที่สุด?</div>
+                    <textarea id="ans-favorite" placeholder="พิมพ์วลีหรือข้อพระคัมภีร์ประทับใจพิเศษ..."></textarea>
+                </div>
+
+                <button class="btn-save" onclick="saveDevotional()">💾 บันทึกการเฝ้าเดี่ยววันนี้</button>
+            </div>
+        </div>
+
+        <!-- 2. หน้าเลือกอ่านพระคัมภีร์ (เด้งเข้าแอป) -->
+        <div id="tab-read" class="hidden">
+            <div class="card" style="border-left-color: #9f7aea;">
+                <div class="card-header">
+                    <span class="card-title" style="color: #6b46c1;">📖 เลือกบทพระคัมภีร์ที่ต้องการอ่าน</span>
+                </div>
+                <p style="color: #4a5568; margin-bottom: 15px;">เลือกลงรายละเอียดเล่มและบท จากนั้นกดปุ่มเพื่อเด้งเข้าอ่านฉบับเต็มในแอปพระคัมภีร์ (YouVersion)</p>
+
+                <div class="reader-controls">
+                    <div>
+                        <label style="font-weight:600; color:#4a5568; display:block; margin-bottom:5px;">หนังสือ:</label>
+                        <select id="book-select"></select>
+                    </div>
+                    <div>
+                        <label style="font-weight:600; color:#4a5568; display:block; margin-bottom:5px;">บทที่:</label>
+                        <input type="number" id="chapter-input" value="1" min="1" max="150">
+                    </div>
+                </div>
+
+                <button class="btn-primary" style="background-color: #805ad5;" onclick="openBibleApp()">🚀 เปิดอ่านในแอปพระคัมภีร์</button>
+            </div>
+        </div>
+
+        <!-- 3. หน้าบันทึกย้อนหลัง -->
+        <div id="tab-saved" class="hidden">
+            <h2 style="margin-bottom: 20px; color: #2b6cb0;">รายการที่บันทึกไว้ทั้งหมด</h2>
+            <div id="saved-list">
+                <p style="color: #718096;">ยังไม่มีการบันทึกข้อมูล</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>ขอพระเจ้าอวยพรการแสวงหาและเดินทางร่วมกับพระองค์ในทุกๆ วัน 🙏</p>
+    </footer>
+
+    <script>
+        // รายชื่อพระคัมภีร์ 66 เล่มพร้อมโค้ดสำหรับ YouVersion
+        const bibleBooks = [
+            // พันธสัญญาเดิม (39 เล่ม)
+            { name: "ปฐมกาล (Genesis)", code: "GEN" },
+            { name: "อพยพ (Exodus)", code: "EXO" },
+            { name: "เลวีนิติ (Leviticus)", code: "LEV" },
+            { name: "กันดารวิถี (Numbers)", code: "NUM" },
+            { name: "เฉลยธรรมบัญญัติ (Deuteronomy)", code: "DEU" },
+            { name: "โยชูวา (Joshua)", code: "JOSH" },
+            { name: "ผู้วินิจฉัย (Judges)", code: "JDG" },
+            { name: "นางรูธ (Ruth)", code: "RUTH" },
+            { name: "1 ซามูเอล (1 Samuel)", code: "1SA" },
+            { name: "2 ซามูเอล (2 Samuel)", code: "2SA" },
+            { name: "1 พงศ์กษัตริย์ (1 Kings)", code: "1KI" },
+            { name: "2 พงศ์กษัตริย์ (2 Kings)", code: "2KI" },
+            { name: "1 พงศาวดาร (1 Chronicles)", code: "1CH" },
+            { name: "2 พงศาวดาร (2 Chronicles)", code: "2CH" },
+            { name: "เอสรา (Ezra)", code: "EZR" },
+            { name: "เนหะมีย์ (Nehemiah)", code: "NEH" },
+            { name: "เอสเธอร์ (Esther)", code: "EST" },
+            { name: "โยบ (Job)", code: "JOB" },
+            { name: "สดุดี (Psalms)", code: "PSA" },
+            { name: "สุภาษิต (Proverbs)", code: "PRO" },
+            { name: "ปัญญาจารย์ (Ecclesiastes)", code: "ECC" },
+            { name: "เพลงซาโลมอน (Song of Solomon)", code: "SNG" },
+            { name: "อิสยาห์ (Isaiah)", code: "ISA" },
+            { name: "เยเรมีย์ (Jeremiah)", code: "JER" },
+            { name: "เพลงคร่ำครวญ (Lamentations)", code: "LAM" },
+            { name: "เอเสเคียล (Ezekiel)", code: "EZK" },
+            { name: "ดาเนียล (Daniel)", code: "DAN" },
+            { name: "โฮเชยา (Hosea)", code: "HOS" },
+            { name: "โยเอล (Joel)", code: "JOL" },
+            { name: "อาโมส (Amos)", code: "AMO" },
+            { name: "โอบาดีห์ (Obadiah)", code: "OBA" },
+            { name: "โยนาห์ (Jonah)", code: "JON" },
+            { name: "มีคาห์ (Micah)", code: "MIC" },
+            { name: "นาฮูม (Nahum)", code: "NAM" },
+            { name: "ฮาบากุก (Habakkuk)", code: "HAB" },
+            { name: "เศฟันยาห์ (Zephaniah)", code: "ZEP" },
+            { name: "ฮักกัย (Haggai)", code: "HAG" },
+            { name: "เศคาริยาห์ (Zechariah)", code: "ZEC" },
+            { name: "มาลาคี (Malachi)", code: "MAL" },
+            // พันธสัญญาใหม่ (27 เล่ม)
+            { name: "มัทธิว (Matthew)", code: "MAT" },
+            { name: "มาระโก (Mark)", code: "MRK" },
+            { name: "ลูกา (Luke)", code: "LUK" },
+            { name: "ยอห์น (John)", code: "JHN" },
+            { name: "กิจการ (Acts)", code: "ACT" },
+            { name: "โรม (Romans)", code: "ROM" },
+            { name: "1 โครินธ์ (1 Corinthians)", code: "1CO" },
+            { name: "2 โครินธ์ (2 Corinthians)", code: "2CO" },
+            { name: "กาลาเทีย (Galatians)", code: "GAL" },
+            { name: "เอเฟซัส (Ephesians)", code: "EPH" },
+            { name: "ฟิลิปปี (Philippians)", code: "PHP" },
+            { name: "โคโลสี (Colossians)", code: "COL" },
+            { name: "1 เธสะโลนิกา (1 Thessalonians)", code: "1TH" },
+            { name: "2 เธสะโลนิกา (2 Thessalonians)", code: "2TH" },
+            { name: "1 ทิโมธี (1 Timothy)", code: "1TI" },
+            { name: "2 ทิโมธี (2 Timothy)", code: "2TI" },
+            { name: "ทิตัส (Titus)", code: "TIT" },
+            { name: "ฟีเลโมน (Philemon)", code: "PHM" },
+            { name: "ฮีบรู (Hebrews)", code: "HEB" },
+            { name: "ยากอบ (James)", code: "JAS" },
+            { name: "1 เปโตร (1 Peter)", code: "1PE" },
+            { name: "2 เปโตร (2 Peter)", code: "2PE" },
+            { name: "1 ยอห์น (1 John)", code: "1JN" },
+            { name: "2 ยอห์น (2 John)", code: "2JN" },
+            { name: "3 ยอห์น (3 John)", code: "3JN" },
+            { name: "ยูดา (Jude)", code: "JUD" },
+            { name: "วิวรณ์ (Revelation)", code: "REV" }
+        ];
+
+        // รายการพระคัมภีร์เฝ้าเดี่ยวประจำวัน
+        const dailyVerses = [
+            { ref: "สดุดี 119:105", content: "พระวจนะของพระองค์เป็นตะเกียงแก่เท้าของข้าพระองค์ และเป็นความสว่างแก่ทางของข้าพระองค์" },
+            { ref: "ฟีลิปปี 4:6-7", content: "อย่ากระวนกระวายในสิ่งใดๆ เลย แต่จงทูลพระเจ้าให้ทรงทราบทุกสิ่งที่พวกท่านประสงค์ โดยการอธิษฐานและการวิงวอน พร้อมกับการขอบพระคุณ" },
+            { ref: "สุภาษิต 3:5-6", content: "จงวางใจในพระยาห์เวห์ด้วยสุดใจของเจ้า และอย่าพึ่งพาความเข้าใจของตนเอง จงยอมรับรู้พระองค์ในทุกทางของเจ้า แล้วพระองค์จะทรงทำให้วิถีของเจ้าตรง" },
+            { ref: "อิสยาห์ 40:31", content: "แต่คนเหล่านั้นที่รอคอยพระยาห์เวห์จะได้รับกำลังใหม่ เขาจะบินขึ้นด้วยพลังเหมือนนกอินทรี เขาจะวิ่งและไม่เหน็ดเหนื่อย เขาจะเดินและไม่อ่อนเพลีย" },
+            { ref: "ยอห์น 14:27", content: "เรามอบสันติสุขไว้กับพวกท่าน สันติสุขของเราที่ให้แก่ท่านนั้น เราไม่ได้ให้ยกเว้นอย่างที่โลกให้ อย่าให้ใจของท่านวิตก และอย่ากลัวเลย" }
+        ];
+
+        // สร้าง Dropdown เลือกหนังสือพระคัมภีร์
+        const bookSelect = document.getElementById('book-select');
+        bibleBooks.forEach(book => {
+            const opt = document.createElement('option');
+            opt.value = book.code;
+            opt.innerText = book.name;
+            bookSelect.appendChild(opt);
+        });
+
+        // เปิดเด้งเข้าแอปพระคัมภีร์ (YouVersion)
+        function openBibleApp() {
+            const book = document.getElementById('book-select').value;
+            const chapter = document.getElementById('chapter-input').value || 1;
+            // 179 = รหัสฉบับ THSV11 (มาตรฐานไทย) ในระบบ YouVersion
+            const bibleUrl = `https://www.bible.com/bible/179/${book}.${chapter}.THSV11`;
+            window.open(bibleUrl, '_blank');
+        }
+
+        // กำหนดวันที่ และเลือกข้อพระคัมภีร์ประจำวัน
+        const now = new Date();
+        const dateString = now.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' });
+        document.getElementById('current-date').innerText = dateString;
+
+        const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+        const selectedVerse = dailyVerses[dayOfYear % dailyVerses.length];
+
+        document.getElementById('verse-content').innerText = `"${selectedVerse.content}"`;
+        document.getElementById('verse-ref').innerText = `— ${selectedVerse.ref}`;
+
+        // สลับแท็บ
+        function switchTab(tab) {
+            document.getElementById('tab-today').classList.add('hidden');
+            document.getElementById('tab-read').classList.add('hidden');
+            document.getElementById('tab-saved').classList.add('hidden');
+            
+            document.getElementById('nav-today').classList.remove('active');
+            document.getElementById('nav-read').classList.remove('active');
+            document.getElementById('nav-saved').classList.remove('active');
+
+            if (tab === 'today') {
+                document.getElementById('tab-today').classList.remove('hidden');
+                document.getElementById('nav-today').classList.add('active');
+            } else if (tab === 'read') {
+                document.getElementById('tab-read').classList.remove('hidden');
+                document.getElementById('nav-read').classList.add('active');
+            } else {
+                document.getElementById('tab-saved').classList.remove('hidden');
+                document.getElementById('nav-saved').classList.add('active');
+                renderSavedItems();
+            }
+        }
+
+        // บันทึกข้อมูล
+        function saveDevotional() {
+            const meaning = document.getElementById('ans-meaning').value;
+            const apply = document.getElementById('ans-apply').value;
+            const favorite = document.getElementById('ans-favorite').value;
+
+            if (!meaning && !apply && !favorite) {
+                alert('กรุณากรอกข้อความเพื่อบันทึก');
+                return;
+            }
+
+            const newEntry = {
+                id: Date.now(),
+                date: dateString,
+                verse: selectedVerse,
+                meaning: meaning,
+                apply: apply,
+                favorite: favorite
+            };
+
+            let savedData = JSON.parse(localStorage.getItem('qt_entries') || '[]');
+            savedData.unshift(newEntry);
+            localStorage.setItem('qt_entries', JSON.stringify(savedData));
+
+            alert('บันทึกการเฝ้าเดี่ยวสำเร็จ!');
+            document.getElementById('ans-meaning').value = '';
+            document.getElementById('ans-apply').value = '';
+            document.getElementById('ans-favorite').value = '';
+        }
+
+        // แสดงรายการบันทึกย้อนหลัง
+        function renderSavedItems() {
+            const savedList = document.getElementById('saved-list');
+            let savedData = JSON.parse(localStorage.getItem('qt_entries') || '[]');
+
+            if (savedData.length === 0) {
+                savedList.innerHTML = '<p style="color: #718096;">ยังไม่มีรายการบันทึก</p>';
+                return;
+            }
+
+            savedList.innerHTML = savedData.map(item => `
+                <div class="saved-item">
+                    <div style="display:flex; justify-content:space-between; color: #718096; font-size: 0.85rem; margin-bottom: 8px;">
+                        <span>📅 ${item.date}</span>
+                        <strong style="color: #319795;">${item.verse.ref}</strong>
+                    </div>
+                    <p style="font-style: italic; color: #4a5568; margin-bottom: 10px;">"${item.verse.content}"</p>
+                    <hr style="border: none; border-top: 1px solid #edf2f7; margin: 10px 0;">
+                    ${item.meaning ? `<p><strong>เนื้อหาหลัก:</strong> ${item.meaning}</p>` : ''}
+                    ${item.apply ? `<p><strong>การนำไปใช้:</strong> ${item.apply}</p>` : ''}
+                    ${item.favorite ? `<p style="color:#d69e2e;"><strong>ข้อที่ชอบ/โดนใจ:</strong> ${item.favorite}</p>` : ''}
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
